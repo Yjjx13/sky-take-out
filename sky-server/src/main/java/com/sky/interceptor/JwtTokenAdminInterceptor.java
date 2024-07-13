@@ -1,6 +1,7 @@
 package com.sky.interceptor;
 
 import com.sky.constant.JwtClaimsConstant;
+import com.sky.context.BaseContext;
 import com.sky.properties.JwtProperties;
 import com.sky.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -42,17 +43,26 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         String token = request.getHeader(jwtProperties.getAdminTokenName());
 
         //2、校验令牌
+        // 尝试验证JWT令牌的有效性
         try {
+            // 记录日志，显示正在验证的JWT令牌
             log.info("jwt校验:{}", token);
+            // 使用预定义的管理员密钥解析JWT令牌
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
+            // 从声明中提取员工ID
             Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
+            // 记录日志，显示当前员工ID
             log.info("当前员工id：", empId);
+            BaseContext.setCurrentId(empId);
+            // 如果令牌验证成功，返回true
             //3、通过，放行
             return true;
         } catch (Exception ex) {
+            // 如果令牌验证失败，设置响应状态为401（未授权）并返回false
             //4、不通过，响应401状态码
             response.setStatus(401);
             return false;
         }
+
     }
 }
