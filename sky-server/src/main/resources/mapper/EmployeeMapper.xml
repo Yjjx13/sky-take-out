@@ -12,7 +12,7 @@
         </where>
         order by create_time desc
     </select>
-   <update id="update" parameterType="com.sky.entity.Employee">
+<update id="update" parameterType="com.sky.entity.Employee">
     update employee
     <set>
         <if test="name != null and name != ''">
@@ -39,17 +39,8 @@
         <if test="updateUser != null">
             update_user = #{updateUser}
         </if>
-        <!-- 使用choose来避免最后一个字段后的逗号问题 -->
-        <choose>
-            <when test="name != null or username != null or phone != null or sex != null or idNumber != null or status != null or updateTime != null or updateUser != null">
-                where id = #{id}
-            </when>
-            <otherwise>
-                /* 如果所有字段都不更新，则不执行更新操作，避免生成无效的SQL */
-                where 1 = 0
-            </otherwise>
-        </choose>
     </set>
+    where id = #{id}
 </update>
 
 
