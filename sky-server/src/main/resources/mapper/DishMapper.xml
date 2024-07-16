@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.DishMapper">
+
+    <insert id="insert" parameterType="com.sky.entity.Dish" keyProperty="id" useGeneratedKeys="true">
+        insert into dish (category_id, create_time, create_user, description, image, name, price, status, update_time, update_user)
+        values (#{categoryId}, #{createTime}, #{createUser}, #{description}, #{image}, #{name}, #{price}, #{status}, #{updateTime}, #{updateUser})
+    </insert>
+</mapper>
