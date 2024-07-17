@@ -7,4 +7,40 @@
         insert into dish (category_id, create_time, create_user, description, image, name, price, status, update_time, update_user)
         values (#{categoryId}, #{createTime}, #{createUser}, #{description}, #{image}, #{name}, #{price}, #{status}, #{updateTime}, #{updateUser})
     </insert>
+    <update id="update" parameterType="com.sky.entity.Dish">
+        update dish
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteBatch" >
+        delete from dish where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="pageQuery" resultType="com.sky.vo.DishVO" parameterType="com.sky.dto.DishPageQueryDTO">
+        select d.*, c.name as categoryName
+        from dish d
+        left join category c on d.category_id = c.id
+        <where>
+        <if test="categoryId != null">
+            and d.category_id = #{categoryId}
+        </if>
+        <if test="name != null and name != ''">
+            and d.name like concat('%',#{name},'%')
+        </if>
+        <if test="status != null">
+            and d.status = #{status}
+        </if>
+        </where>
+        order by d.create_time desc
+    </select>
+
 </mapper>
