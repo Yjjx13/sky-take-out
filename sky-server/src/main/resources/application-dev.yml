@@ -11,3 +11,10 @@ sky:
     access-key-id: LTAI5tDyDksBY2GztuWQycGG
     access-key-secret: bo78sLjEbBclySlbZrfIy3aKW7maDU
     bucket-name: niudengwaimai
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+  wechat:
+    app-id: wx5b18ec3c9f72d2ac
+    secret: 85a605fa716297da89122d99d54af959
