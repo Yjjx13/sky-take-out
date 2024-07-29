@@ -17,7 +17,7 @@ import java.util.List;
 public class OrderTask {
     @Autowired
     private OrderMapper orderMapper;
-    @Scheduled(cron = "1/5 * * * * ?" )
+    @Scheduled(cron = "0 1 * * * ?" )
     public void processTimeoutOrders() {
         log.info("处理超时订单");
         List<Orders> byStatusAndOrderTime = orderMapper.getByStatusAndOrderTime(Orders.PENDING_PAYMENT, LocalDateTime.now().plusMinutes(-15));
@@ -30,8 +30,7 @@ public class OrderTask {
             }
         }
     }
-//    @Scheduled(cron = "0 0 1 * * ?" )
-    @Scheduled(cron = "0/5 * * * * ?" )
+    @Scheduled(cron = "0 0 1 * * ?" )
     public void processDeliveryOrders(){
         log.info("处理派送订单:{}",LocalDateTime.now());
         List<Orders> byStatusAndOrderTime = orderMapper.getByStatusAndOrderTime(Orders.DELIVERY_IN_PROGRESS, LocalDateTime.now().plusMinutes(-60));
