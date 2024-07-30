@@ -8,4 +8,19 @@
         insert into user (openid, id_number, name, phone, sex, avatar, create_time)
         values (#{openid}, #{idNumber}, #{name}, #{phone}, #{sex}, #{avatar}, #{createTime})
     </insert>
+    <select id="countNewUsers" resultType="java.lang.Integer">
+        select COUNT(id) from user
+        <where>
+            <if test="startTime != null">
+                create_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                and create_time &gt; #{endTime}
+            </if>
+        </where>
+    </select>
+    <select id="countTotalUsers" resultType="java.lang.Integer" parameterType="java.time.LocalDateTime">
+        select COUNT(id) from user
+        where create_time <![CDATA[<=]]> #{endTime}
+    </select>
 </mapper>
